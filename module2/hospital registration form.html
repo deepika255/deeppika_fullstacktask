@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospital Registration Form</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 30px 15px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f2fe, #ecfdf5);
+      color: #1e293b;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 10px 35px #0f172a20;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #0e7490;
+      text-align: center;
+    }
+
+    .subtitle {
+      margin-bottom: 28px;
+      color: #64748b;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 26px;
+      padding-bottom: 8px;
+      color: #155e75;
+      border-bottom: 1px solid #cbd5e1;
+      font-size: 1.15rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 75px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 3px solid #bae6fd;
+      border-color: #0891b2;
+    }
+
+    .consent {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    .consent input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 13px;
+      color: white;
+      background: #0e7490;
+      border: 0;
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { background: #155e75; }
+
+    #message {
+      color: #15803d;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 20px; }
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>🏥 Hospital Registration</h1>
+    <p class="subtitle">Please complete the patient registration form.</p>
+
+    <form id="registrationForm">
+      <h2>Patient Information</h2>
+      <div class="grid">
+        <div>
+          <label for="firstName">First name *</label>
+          <input id="firstName" name="firstName" required>
+        </div>
+        <div>
+          <label for="lastName">Last name *</label>
+          <input id="lastName" name="lastName" required>
+        </div>
+        <div>
+          <label for="dob">Date of birth *</label>
+          <input id="dob" name="dob" type="date" required>
+        </div>
+        <div>
+          <label for="gender">Gender *</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Non-binary</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+      </div>
+
+      <h2>Contact Information</h2>
+      <div class="grid">
+        <div>
+          <label for="phone">Phone number *</label>
+          <input id="phone" name="phone" type="tel" required>
+        </div>
+        <div>
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email">
+        </div>
+        <div class="full">
+          <label for="address">Home address *</label>
+          <textarea id="address" name="address" required></textarea>
+        </div>
+      </div>
+
+      <h2>Visit Information</h2>
+      <div class="grid">
+        <div>
+          <label for="department">Department *</label>
+          <select id="department" name="department" required>
+            <option value="">Select department</option>
+            <option>General Medicine</option>
+            <option>Cardiology</option>
+            <option>Pediatrics</option>
+            <option>Orthopedics</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="visitDate">Preferred visit date</label>
+          <input id="visitDate" name="visitDate" type="date">
+        </div>
+        <div class="full">
+          <label for="reason">Reason for visit</label>
+          <textarea id="reason" name="reason"></textarea>
+        </div>
+      </div>
+
+      <h2>Emergency Contact</h2>
+      <div class="grid">
+        <div>
+          <label for="emergencyName">Contact name *</label>
+          <input id="emergencyName" name="emergencyName" required>
+        </div>
+        <div>
+          <label for="emergencyPhone">Contact phone *</label>
+          <input id="emergencyPhone" name="emergencyPhone" type="tel" required>
+        </div>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" required>
+        <span>I confirm the information is accurate. *</span>
+      </label>
+
+      <button type="submit">Submit Registration</button>
+      <p id="message" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      document.getElementById("message").textContent =
+        "Registration submitted successfully!";
+      this.reset();
+    });
+  </script>
+</body>
+</html>

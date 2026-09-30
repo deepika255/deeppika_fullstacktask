@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+      font-family: Arial, sans-serif;
+      color: #172033;
+      background:
+        radial-gradient(ellipse at 12% 8%, #294875 0, transparent 42%),
+        linear-gradient(135deg, #101a2d, #182c49 55%, #102239);
+    }
+
+    header {
+      margin-bottom: 26px;
+      color: white;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+
+    header p {
+      margin: 0;
+      color: #c4d2e5;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+      gap: 22px;
+      width: min(100%, 1050px);
+      margin: auto;
+      align-items: start;
+    }
+
+    .card {
+      padding: 28px;
+      background: white;
+      border: 1px solid #d9e2ef;
+      border-radius: 16px;
+      box-shadow: 0 24px 65px #07132680;
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      color: #17365e;
+      font-size: 1.25rem;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #334155;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      color: #172033;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    input,
+    select {
+      min-height: 44px;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 3px solid #bfdbfe;
+      border-color: #2563eb;
+    }
+
+    button {
+      min-height: 46px;
+      padding: 0 20px;
+      color: white;
+      background: #1d4ed8;
+      border: 0;
+      border-radius: 8px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    .form-button {
+      width: 100%;
+    }
+
+    .event-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .event-item {
+      padding: 17px;
+      border: 1px solid #dbe4f0;
+      border-left: 4px solid #2563eb;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .event-item h3 {
+      margin: 0 0 9px;
+      color: #17365e;
+      overflow-wrap: anywhere;
+    }
+
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-bottom: 10px;
+      color: #475569;
+      font-size: 0.9rem;
+    }
+
+    .event-item p {
+      margin: 0;
+      color: #475569;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .empty {
+      padding: 24px 16px;
+      color: #64748b;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 28px 14px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>📅 Event Management</h1>
+    <p>Create events and keep your schedule organized.</p>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>➕ Create an Event</h2>
+
+      <form id="eventForm">
+        <div class="field">
+          <label for="eventName">Event name *</label>
+          <input id="eventName" name="eventName" type="text"
+                 placeholder="e.g. Annual Tech Conference" required>
+        </div>
+
+        <div class="field">
+          <label for="eventType">Event type *</label>
+          <select id="eventType" name="eventType" required>
+            <option value="">Select event type</option>
+            <option>Conference</option>
+            <option>Workshop</option>
+            <option>Meeting</option>
+            <option>Celebration</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="eventDate">Date *</label>
+          <input id="eventDate" name="eventDate" type="date" required>
+        </div>
+
+        <div class="field">
+          <label for="eventTime">Time *</label>
+          <input id="eventTime" name="eventTime" type="time" required>
+        </div>
+
+        <div class="field">
+          <label for="eventLocation">Location *</label>
+          <input id="eventLocation" name="eventLocation" type="text"
+                 placeholder="Enter venue or meeting link" required>
+        </div>
+
+        <div class="field">
+          <label for="eventDescription">Description</label>
+          <textarea id="eventDescription" name="eventDescription"
+                    placeholder="Add a short description"></textarea>
+        </div>
+
+        <button class="form-button" type="submit">Add Event</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>🗓️ Event Schedule</h2>
+      <div id="eventList" class="event-list" aria-live="polite">
+        <div class="empty">No events yet. Add an event to see it here.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("eventForm");
+    const eventList = document.getElementById("eventList");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const name = data.get("eventName").trim();
+      const type = data.get("eventType");
+      const date = data.get("eventDate");
+      const time = data.get("eventTime");
+      const location = data.get("eventLocation").trim();
+      const description = data.get("eventDescription").trim();
+
+      if (eventList.querySelector(".empty")) {
+        eventList.replaceChildren();
+      }
+
+      const card = document.createElement("article");
+      card.className = "event-item";
+
+      const title = document.createElement("h3");
+      title.textContent = name;
+
+      const meta = document.createElement("div");
+      meta.className = "event-meta";
+
+      const typeText = document.createElement("span");
+      typeText.textContent = `🏷️ ${type}`;
+
+      const dateText = document.createElement("span");
+      dateText.textContent = `📆 ${date}`;
+
+      const timeText = document.createElement("span");
+      timeText.textContent = `🕒 ${time}`;
+
+      const locationText = document.createElement("span");
+      locationText.textContent = `📍 ${location}`;
+
+      meta.append(typeText, dateText, timeText, locationText);
+      card.append(title, meta);
+
+      if (description) {
+        const descriptionText = document.createElement("p");
+        descriptionText.textContent = description;
+        card.append(descriptionText);
+      }
+
+      eventList.prepend(card);
+      form.reset();
+      document.getElementById("eventName").focus();
+    });
+  </script>
+</body>
+</html>
